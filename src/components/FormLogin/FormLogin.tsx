@@ -4,25 +4,19 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
+import * as Form from "@/components/ui/form"
 import { Button } from "@/components/ui/button"
-import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import {GenericResponse} from "@/dto/GenericResponse";
 import {formLoginSchema} from "@/components/FormLogin/FormLoginSchema";
+import {useRouter} from "next/navigation";
 
 export default function FormLogin() {
     const form = useForm<z.infer<typeof formLoginSchema>>({
         resolver: zodResolver(formLoginSchema),
         defaultValues: {username: "", password: ""}
     })
+    const router = useRouter();
 
     const onSubmit = async function(values: z.infer<typeof formLoginSchema>) {
         const rawResponse = await fetch('http://localhost:8080/api/auth/login', {
@@ -34,49 +28,49 @@ export default function FormLogin() {
         });
         const {statusCode} : GenericResponse<Boolean> = await rawResponse.json();
         if(statusCode === 200) {
-            console.log("Login successful");
+            router.push("/dashboard");
         } else {
             console.log("Login failed");
         }
     }
 
     return (
-        <Form {...form}>
+        <Form.Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
-                <FormField
+                <Form.FormField
                     control={form.control}
                     name="username"
                     render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Username</FormLabel>
-                            <FormControl>
+                        <Form.FormItem>
+                            <Form.FormLabel>Username</Form.FormLabel>
+                            <Form.FormControl>
                                 <Input placeholder="kemalyilmaz" {...field} />
-                            </FormControl>
-                            <FormDescription>
+                            </Form.FormControl>
+                            <Form.FormDescription>
                                 Enter your username.
-                            </FormDescription>
-                            <FormMessage />
-                        </FormItem>
+                            </Form.FormDescription>
+                            <Form.FormMessage />
+                        </Form.FormItem>
                     )}
                 />
-                <FormField
+                <Form.FormField
                     control={form.control}
                     name="password"
                     render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Password</FormLabel>
-                            <FormControl>
+                        <Form.FormItem>
+                            <Form.FormLabel>Password</Form.FormLabel>
+                            <Form.FormControl>
                                 <Input type="password" placeholder="*********" {...field} />
-                            </FormControl>
-                            <FormDescription>
+                            </Form.FormControl>
+                            <Form.FormDescription>
                                 Enter your password
-                            </FormDescription>
-                            <FormMessage />
-                        </FormItem>
+                            </Form.FormDescription>
+                            <Form.FormMessage />
+                        </Form.FormItem>
                     )}
                 />
                 <Button type="submit">Submit</Button>
             </form>
-        </Form>
+        </Form.Form>
     )
 }

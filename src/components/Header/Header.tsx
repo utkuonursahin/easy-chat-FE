@@ -1,5 +1,5 @@
 import React from 'react';
-import AnimatedMenuIcon from "@/components/AnimatedMenuIcon";
+import AnimatedMenuIcon from "@/components/Header/AnimatedMenuIcon";
 
 const Header = () => {
     return (
