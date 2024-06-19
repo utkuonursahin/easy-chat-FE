@@ -17,3 +17,9 @@ export async function checkAuthentication(name: string, jsessionid: string){
   })
   return await raw.json();
 }
+
+export function checkAuthorization(path: string, allowedRoles: string[], userRoles: string[]){
+  const protectedPaths: string[] = ['/dashboard']
+  if(protectedPaths.includes(path)) return allowedRoles.some(role => userRoles.includes(role));
+  else return true;
+}
