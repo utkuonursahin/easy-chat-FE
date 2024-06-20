@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function RootLayout({children}: { children: React.ReactNode }) {
   return (
-      <main className="min-h-screen grid grid-rows-[1fr,4rem] grid-cols-1">
+      <main className="min-h-screen grid grid-rows-[1fr,4rem] grid-cols-1 overflow-x-hidden">
         {children}
         <DashboardNavigation/>
       </main>
