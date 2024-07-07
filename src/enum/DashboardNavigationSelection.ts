@@ -1,6 +1,6 @@
 export enum DashboardNavigationSelection{
     HOME='HOME',
-    MESSAGES='MESSAGES',
+    CHATROOMS='CHATROOMS',
     SEARCH='SEARCH',
     SETTINGS='SETTINGS'
 }

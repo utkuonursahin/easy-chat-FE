@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input"
 import {GenericResponse} from "@/dto/GenericResponse";
 import {formLoginSchema} from "@/components/FormLogin/FormLoginSchema";
 import {useRouter} from "next/navigation";
+import {UserDto} from "@/dto/UserDto";
 
 export default function FormLogin() {
     const form = useForm<z.infer<typeof formLoginSchema>>({
@@ -26,8 +27,9 @@ export default function FormLogin() {
             credentials: 'include',
             cache: 'no-cache',
         });
-        const {statusCode} : GenericResponse<Boolean> = await rawResponse.json();
-        if(statusCode === 200) {
+        const response : GenericResponse<UserDto> = await rawResponse.json();
+        localStorage.setItem("user", JSON.stringify(response.data));
+        if(response.statusCode === 200) {
             router.push("/dashboard");
         } else {
             console.log("Login failed");

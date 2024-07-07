@@ -16,8 +16,8 @@ const DashboardNavigation = () => {
             case '/dashboard':
                 setSelection(DashboardNavigationSelection.HOME)
                 break;
-            case '/messages':
-                setSelection(DashboardNavigationSelection.MESSAGES)
+            case '/chatrooms':
+                setSelection(DashboardNavigationSelection.CHATROOMS)
                 break;
             case '/search':
                 setSelection(DashboardNavigationSelection.SEARCH)
@@ -41,7 +41,7 @@ const DashboardNavigation = () => {
             <Link className={`${selection !== DashboardNavigationSelection.HOME && 'opacity-50 block shadow-sm'} `} data-type={DashboardNavigationSelection.HOME} href="/dashboard">
                 <Home color="#f8fafc"/>
             </Link>
-            <Link className={`${selection !== DashboardNavigationSelection.MESSAGES && 'opacity-50 block shadow-sm'}`} data-type={DashboardNavigationSelection.MESSAGES} href="/messages">
+            <Link className={`${selection !== DashboardNavigationSelection.CHATROOMS && 'opacity-50 block shadow-sm'}`} data-type={DashboardNavigationSelection.CHATROOMS} href="/chatrooms">
                 <MessagesSquare color="#f8fafc"/>
             </Link>
             <Link className={`${selection !== DashboardNavigationSelection.SEARCH && 'opacity-50 block shadow-sm'}`} data-type={DashboardNavigationSelection.SEARCH} href="/search">
