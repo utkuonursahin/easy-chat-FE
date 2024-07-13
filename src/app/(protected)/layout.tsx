@@ -24,7 +24,6 @@ export default function RootLayout({children}: { children: React.ReactNode }) {
             <AppNavItem href="/settings">
                 <Cog color="#f8fafc"/>
             </AppNavItem>
-
         </AppNav>
       </main>
   )

@@ -16,8 +16,9 @@ import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import {ChatRoomDto} from "@/dto/ChatRoomDto";
 import {useRouter} from "next/navigation";
+import {toast} from "sonner";
 
-const ChatRoomCreateCard = () => {
+const RoomCreateCard = () => {
     const [roomName, setRoomName] = useState('Cosy chat room');
     const [open, setOpen] = useState(false);
     const router = useRouter();
@@ -26,9 +27,10 @@ const ChatRoomCreateCard = () => {
             method: 'POST', headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({name: roomName}),
             credentials: 'include', cache: 'no-cache'});
-        const response : GenericResponse<ChatRoomDto[]> = await rawResponse.json();
-        if(response.statusCode === 201) {
+        const {statusCode,data : {name}} : GenericResponse<ChatRoomDto> = await rawResponse.json();
+        if(statusCode === 201) {
             setOpen(prevState => !prevState);
+            toast.success('Room created successfully',{description: `Room Name: ${name}`});
             router.refresh();
         }
     }
@@ -73,4 +75,4 @@ const ChatRoomCreateCard = () => {
     );
 };
 
-export default ChatRoomCreateCard;
+export default RoomCreateCard;

@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import {Fira_Sans} from "next/font/google";
 import "./globals.css";
 import {Provider} from "jotai";
+import {Toaster} from "sonner";
 
 const firaSans = Fira_Sans({ subsets: ["latin"] ,weight: ["300","400", "500"]})
 
@@ -18,6 +19,7 @@ export default function RootLayout({children}: Readonly<{ children: React.ReactN
             <Provider>
                 {children}
             </Provider>
+        <Toaster/>
         </body>
         </html>
     );
