@@ -2,6 +2,7 @@ import React from 'react';
 import type { Metadata } from "next";
 import {Fira_Sans} from "next/font/google";
 import "./globals.css";
+import {Provider} from "jotai";
 
 const firaSans = Fira_Sans({ subsets: ["latin"] ,weight: ["300","400", "500"]})
 
@@ -14,7 +15,9 @@ export default function RootLayout({children}: Readonly<{ children: React.ReactN
     return (
         <html lang="en">
         <body className={`${firaSans.className} bg-primary-foreground`}>
-            {children}
+            <Provider>
+                {children}
+            </Provider>
         </body>
         </html>
     );

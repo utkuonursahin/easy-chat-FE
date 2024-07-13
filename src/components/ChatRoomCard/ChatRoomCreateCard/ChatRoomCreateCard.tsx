@@ -15,30 +15,35 @@ import {Label} from "@/components/ui/label";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import {ChatRoomDto} from "@/dto/ChatRoomDto";
+import {useRouter} from "next/navigation";
 
 const ChatRoomCreateCard = () => {
-    const [roomName, setRoomName] = useState('');
+    const [roomName, setRoomName] = useState('Cosy chat room');
     const [open, setOpen] = useState(false);
+    const router = useRouter();
     const onSubmit = async () => {
         const rawResponse = await fetch('http://localhost:8080/api/chat-rooms', {
             method: 'POST', headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({name: roomName}),
             credentials: 'include', cache: 'no-cache'});
         const response : GenericResponse<ChatRoomDto[]> = await rawResponse.json();
-        if(response.statusCode === 200) setOpen(prevState => !prevState);
+        if(response.statusCode === 201) {
+            setOpen(prevState => !prevState);
+            router.refresh();
+        }
     }
     return (
         <Card className="rounded px-6 py-4 hover:ring-2 hover:ring-bg-primary transition-all duration-300">
-            <Dialog open={open}>
+            <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger asChild>
-                    <CardContent className="p-0 flex flex-col items-center justify-center gap-2">
+                    <CardContent className="hover:cursor-pointer p-0 flex flex-col items-center justify-center gap-2">
                         <CirclePlus size={28} color="#2863eb"/>
                         <p className="text-sm capitalize font-thin">Create new room</p>
                     </CardContent>
                 </DialogTrigger>
                 <DialogContent className="w-5/6 rounded sm:max-w-[425px]">
                     <DialogHeader>
-                        <DialogTitle>Create Room</DialogTitle>
+                        <DialogTitle className="font-thin">Create Room</DialogTitle>
                         <DialogDescription>
                             Create a new room to start chatting with your friends.
                         </DialogDescription>
@@ -50,16 +55,16 @@ const ChatRoomCreateCard = () => {
                             </Label>
                             <Input
                                 id="name"
-                                defaultValue="Best gang ever"
+                                defaultValue={roomName}
                                 className="col-span-3"
                                 onChange={(e) => setRoomName(e.target.value)}
                             />
                         </div>
                     </div>
-                    <DialogFooter>
-                        <Button onClick={onSubmit} type="submit">Submit</Button>
+                    <DialogFooter className="flex flex-row gap-4">
+                        <Button onClick={onSubmit} type="submit" className="flex-1">Submit</Button>
                         <DialogClose asChild>
-                            <Button type="button">Close</Button>
+                            <Button variant="outline" type="button">Close</Button>
                         </DialogClose>
                     </DialogFooter>
                 </DialogContent>

@@ -1,10 +1,11 @@
 import React from 'react';
-
+import FindRoomSearchBar from "@/components/SearchBar/FindRoomSearchBar";
 const Page = () => {
     return (
-        <div>
-            Hello from search
-        </div>
+        <section className="p-10 flex flex-col items-center gap-8">
+            <h2 className="text-2xl font-thin">Find Your Friends' Room</h2>
+            <FindRoomSearchBar/>
+        </section>
     );
 };
 
