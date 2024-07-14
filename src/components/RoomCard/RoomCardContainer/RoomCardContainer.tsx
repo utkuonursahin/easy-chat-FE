@@ -17,18 +17,12 @@ export default function RoomCardContainer({chatRooms}: ChatRoomCardContainerProp
     setChatRooms(chatRooms)
     const router = useRouter();
     const onRoomClick = async (event:any) => {
-        let target: HTMLElement | null = (event.target as HTMLElement).closest('.copy-id');
-        if(target) {
-            const id = target?.dataset.roomId || '';
+        const id = ((event.target as HTMLElement).closest('.room-card') as HTMLElement)?.dataset.roomId || '';
+        const shouldCopy = (event.target as HTMLElement).closest('.copy-id')
+        if(shouldCopy) {
             await navigator.clipboard.writeText(id);
             toast.success('Copied to clipboard', {description: `Room ID: ${id}`})
-            return;
-        }
-        target = (event.target as HTMLElement).closest('.room-card');
-        if(target) {
-            const roomName = target?.dataset.roomName || '';
-            router.push(`/chatrooms/${roomName.toLowerCase().replaceAll(' ','_')}`);
-        }
+        } else router.push(`/chatrooms/${id}`);
     };
 
     return (
