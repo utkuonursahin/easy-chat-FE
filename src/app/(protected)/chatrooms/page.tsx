@@ -1,8 +1,8 @@
-import RoomCreateCard from "@/components/RoomCard/RoomCreateCard/RoomCreateCard";
+import RoomCreateCard from "@/components/Room/RoomPreview/RoomCreateCard/RoomCreateCard";
 import {cookies} from "next/headers";
 import {GenericResponse} from "@/dto/GenericResponse";
 import {ChatRoomDto} from "@/dto/ChatRoomDto";
-import RoomCardContainer from "@/components/RoomCard/RoomCardContainer/RoomCardContainer";
+import RoomPreviewContainer from "@/components/Room/RoomPreview/RoomPreviewContainer/RoomPreviewContainer";
 
 async function getData(){
     const response = await fetch('http://localhost:8080/api/chat-rooms/join',{
@@ -21,7 +21,7 @@ export default async function Page (){
                     <RoomCreateCard/>
                 </li>
                 <li>
-                    <RoomCardContainer chatRooms={chatRooms}/>
+                    <RoomPreviewContainer chatRooms={chatRooms}/>
                 </li>
             </ul>
         </div>

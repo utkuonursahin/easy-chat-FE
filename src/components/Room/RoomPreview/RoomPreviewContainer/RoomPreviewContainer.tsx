@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import {ChatRoomDto} from "@/dto/ChatRoomDto";
-import RoomCard from "@/components/RoomCard/RoomCard";
+import RoomPreviewCard from "@/components/Room/RoomPreview/RoomPreviewCard";
 import {toast} from "sonner";
 import {useSetAtom} from "jotai";
 import { chatRoomsAtom } from '@/stores/stores';
@@ -12,7 +12,7 @@ type ChatRoomCardContainerProps = {
     chatRooms: ChatRoomDto[];
 }
 
-export default function RoomCardContainer({chatRooms}: ChatRoomCardContainerProps) {
+export default function RoomPreviewContainer({chatRooms}: ChatRoomCardContainerProps) {
     const setChatRooms = useSetAtom(chatRoomsAtom)
     setChatRooms(chatRooms)
     const router = useRouter();
@@ -33,7 +33,7 @@ export default function RoomCardContainer({chatRooms}: ChatRoomCardContainerProp
                                 transition={{ease: 'easeInOut', duration: 0.25, delay: 0.25 + index * 0.1}}
                                 className="col-span-full row-span-full grid-cols-subgrid grid-rows-subgrid grid"
                     >
-                        <RoomCard data={room}/>
+                        <RoomPreviewCard data={room}/>
                     </motion.div>
                 </li>
                 )}
