@@ -6,7 +6,6 @@ export type MessageDto = {
     id: UUID;
     sender: UserDto;
     receiver: ChatRoomDto;
-    seenBy: UserDto[];
     content: string;
     createdAt: Date;
 }

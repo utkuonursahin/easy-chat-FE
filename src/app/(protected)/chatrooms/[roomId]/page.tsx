@@ -1,4 +1,3 @@
-import MessageInput from "@/components/MessageInput/MessageInput";
 import RoomHeader from "@/components/Room/RoomHeader/RoomHeader";
 import {cookies} from "next/headers";
 import {GenericResponse} from "@/dto/GenericResponse";
@@ -7,6 +6,7 @@ import Room from "@/components/Room/Room";
 import React from "react";
 import {PaginatedMessageDto} from "@/dto/PaginatedMessageDto";
 import RoomContent from "@/components/Room/RoomContent/RoomContent";
+import RoomInput from "@/components/Room/RoomInput/RoomInput";
 
 type RoomData = {
     room: ChatRoomDto
@@ -37,8 +37,8 @@ export default async function Page({ params }: { params: { roomId: string } }) {
                 <RoomHeader>
                     <p className="capitalize">{room.name}</p>
                 </RoomHeader>
-                <RoomContent messages={messages}/>
-                <MessageInput/>
+                <RoomContent room={room} messages={messages}/>
+                <RoomInput room={room} messages={messages}/>
             </Room>
         </section>
     )
