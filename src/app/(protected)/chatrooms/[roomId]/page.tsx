@@ -22,7 +22,7 @@ async function getData(id: string): Promise<RoomData>{
     }
     const roomResponse = await fetch(`http://localhost:8080/api/chat-rooms/${id}`,options)
     const roomData : GenericResponse<ChatRoomDto> = await roomResponse.json()
-    const messagesResponse = await  fetch(`http://localhost:8080/api/messages/receiver/${id}?page=0&size=10`,options)
+    const messagesResponse = await  fetch(`http://localhost:8080/api/messages/receiver/${id}?page=0&size=50`,options)
     const messagesData = await messagesResponse.json()
     if(roomData.statusCode === 200 && messagesData.statusCode === 200){
         return {room: roomData.data, messages: messagesData.data}
@@ -32,8 +32,8 @@ async function getData(id: string): Promise<RoomData>{
 export default async function Page({ params }: { params: { roomId: string } }) {
     const {room,messages}: RoomData = await getData(params.roomId)
     return (
-        <section className="p-4">
-            <Room roomData={room}>
+        <section>
+            <Room>
                 <RoomHeader>
                     <p className="capitalize">{room.name}</p>
                 </RoomHeader>

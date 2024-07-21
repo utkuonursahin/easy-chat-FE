@@ -1,14 +1,12 @@
 import React from 'react';
-import {ChatRoomDto} from "@/dto/ChatRoomDto";
 
 type RoomProps = {
-    roomData: ChatRoomDto;
     children?: React.ReactNode;
 }
 
-const Room = ({roomData,children}: RoomProps) => {
+const Room = ({children}: RoomProps) => {
     return (
-        <div className="w-full h-full grid grid-rows-[min-content,1fr,min-content] gap-4">
+        <div className="p-4 w-full h-full grid grid-rows-[min-content,1fr,min-content] gap-4">
             {children}
         </div>
     );

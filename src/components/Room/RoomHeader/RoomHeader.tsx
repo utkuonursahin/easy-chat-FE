@@ -6,7 +6,7 @@ type RoomHeaderProps = {
 
 const RoomHeader = ({children}: RoomHeaderProps) => {
     return (
-        <header className="bg-primary/10 w-full p-4 rounded-lg">
+        <header className="bg-primary/80  w-full p-4 rounded-lg text-primary-foreground flex justify-center">
             {children}
         </header>
     );

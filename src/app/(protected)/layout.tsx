@@ -9,7 +9,7 @@ export const metadata = {
 
 export default function RootLayout({children}: { children: React.ReactNode }) {
   return (
-      <main className="min-h-screen grid grid-rows-[1fr,4rem] grid-cols-1 overflow-x-hidden">
+      <main className="min-h-screen grid grid-rows-[calc(100vh-4rem),4rem] grid-cols-1 overflow-x-hidden">
         {children}
         <AppNav>
             <AppNavItem href="/dashboard">

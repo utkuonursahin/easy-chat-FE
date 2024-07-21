@@ -7,9 +7,8 @@ import {ChatRoomDto} from "@/dto/ChatRoomDto";
 import {PaginatedMessageDto} from "@/dto/PaginatedMessageDto";
 import {UserDto} from "@/dto/UserDto";
 import {MessageDto} from "@/dto/MessageDto";
-import {socket} from "@/socket";
-import {useSetAtom} from "jotai";
-import {messagesAtom} from "@/stores/stores";
+import {useAtomValue, useSetAtom} from "jotai";
+import {messagesAtom, socketAtom} from "@/stores/stores";
 
 type RoomContentProps = {
     room: ChatRoomDto
@@ -20,6 +19,7 @@ const RoomInput = ({room,messages} : RoomContentProps) => {
     const user = JSON.parse(window.localStorage.getItem('user')!) as UserDto;
     const [textMsg, setTextMsg] = useState('')
     const setMsgAtom = useSetAtom(messagesAtom)
+    const socket = useAtomValue(socketAtom)
 
     const onClick = () => {
         const message = {
