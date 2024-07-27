@@ -13,6 +13,15 @@ type RoomContentProps = {
     messages: PaginatedMessageDto;
 }
 
+const messagesDateFormat = new Intl.DateTimeFormat('en-GB',{
+    hourCycle: 'h24',
+    hour: 'numeric',
+    minute: 'numeric',
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric'
+})
+
 const RoomContent = ({room, messages}: RoomContentProps) => {
     const user = JSON.parse(window.localStorage.getItem('user')!) as UserDto;
     const [msgAtom, setMsgAtom] = useAtom(messagesAtom)
@@ -20,7 +29,7 @@ const RoomContent = ({room, messages}: RoomContentProps) => {
     useEffect(() => {
         let sc = null;
         if(!socket) {
-            sc = io("ws://192.168.1.4:8085")
+            sc = io("ws://192.168.1.5:8085")
             setSocket(sc)
         }
         setMsgAtom(messages.content)
@@ -42,14 +51,7 @@ const RoomContent = ({room, messages}: RoomContentProps) => {
                 <div key={message.id} className={`flex flex-col w-fit gap-1 px-4 py-2 rounded-lg ${user.id === message.sender.id ? 'text-right bg-primary/30 self-end' : 'text-left bg-primary/10'}`}>
                     <p className="text-xs flex justify-between items-center gap-4">
                         <span className="text-primary">{user.id === message.sender.id ? 'Me' : message.sender.username}</span>
-                        <span>{new Date(message.createdAt).toLocaleString('en-GB',{
-                            hourCycle: 'h24',
-                            hour: 'numeric',
-                            minute: 'numeric',
-                            day: 'numeric',
-                            month: 'short',
-                            year: 'numeric'
-                        })}</span>
+                        <span>{messagesDateFormat.format(new Date(message.createdAt))}</span>
                     </p>
                     <p className="text-secondary-foreground">{message.content}</p>
                 </div>

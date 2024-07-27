@@ -9,8 +9,8 @@ export default function RoomPreviewCard({data}: {data: ChatRoomDto}) {
             <CardHeader className="flex gap-2 justify-center p-0">
                 <CardTitle className="font-thin p-0">{data.name}</CardTitle>
                 <CardDescription className="copy-id text-primary !mt-0 w-fit">
-                    <Button className="flex gap-1 text-xs p-2" variant={"outline"}>
-                        <span>Copy Room Id</span>
+                    <Button className="flex gap-1 text-xs px-2" variant={"outline"}>
+                        <span className="text-xs">Copy Id</span>
                         <Copy className="h-[1.5cap]"/>
                     </Button>
                 </CardDescription>

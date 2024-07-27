@@ -4,7 +4,6 @@ import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import {SendHorizontal} from "lucide-react";
 import {ChatRoomDto} from "@/dto/ChatRoomDto";
-import {PaginatedMessageDto} from "@/dto/PaginatedMessageDto";
 import {UserDto} from "@/dto/UserDto";
 import {MessageDto} from "@/dto/MessageDto";
 import {useAtomValue, useSetAtom} from "jotai";
@@ -12,10 +11,9 @@ import {messagesAtom, socketAtom} from "@/stores/stores";
 
 type RoomContentProps = {
     room: ChatRoomDto
-    messages: PaginatedMessageDto;
 }
 
-const RoomInput = ({room,messages} : RoomContentProps) => {
+const RoomInput = ({room} : RoomContentProps) => {
     const user = JSON.parse(window.localStorage.getItem('user')!) as UserDto;
     const [textMsg, setTextMsg] = useState('')
     const setMsgAtom = useSetAtom(messagesAtom)

@@ -9,22 +9,28 @@ import {findRoomSearchAtom} from "@/stores/stores";
 type SearchBarProps = {
     label?: string;
     placeholder?: string;
-    children: React.ReactNode;
 }
 
-const SearchBar = ({label,children} : SearchBarProps) => {
+const SearchBar = ({label} : SearchBarProps) => {
     return (
         <div className="flex flex-col gap-2 w-full">
             <Label className="font-thin">{label}</Label>
-            {children}
+            <SearchBar.SearchInput/>
+            <SearchBar.SearchBtn/>
         </div>
     );
 };
 
-SearchBar.FindRoom = function SearchBarFindRoom(){
+SearchBar.SearchInput = function SearchInput(){
     const [search,setSearch] = useAtom(findRoomSearchAtom)
     return (
         <Input value={search} onChange={el => setSearch(el.target.value)} placeholder={"Search a room id"}/>
+    )
+}
+
+SearchBar.SearchBtn = function SearchBtn(){
+    return (
+        <button className="bg-blue-500 text-white p-2 rounded-md">Search</button>
     )
 }
 
