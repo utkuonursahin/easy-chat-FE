@@ -3,8 +3,11 @@
 import React from 'react';
 import {Label} from "@/components/ui/label";
 import {Input} from "@/components/ui/input";
-import {useAtom} from "jotai";
-import {findRoomSearchAtom} from "@/stores/stores";
+import {useAtom, useAtomValue, useSetAtom} from "jotai";
+import {findRoomSearchAtom, roomSearchResultAtom} from "@/stores/stores";
+import {Button} from "@/components/ui/button";
+import {useHttp} from "@/hooks/useHttp";
+import {ChatRoomDto} from "@/dto/ChatRoomDto";
 
 type SearchBarProps = {
     label?: string;
@@ -13,7 +16,7 @@ type SearchBarProps = {
 
 const SearchBar = ({label} : SearchBarProps) => {
     return (
-        <div className="flex flex-col gap-2 w-full">
+        <div className="flex flex-col gap-4 w-full">
             <Label className="font-thin">{label}</Label>
             <SearchBar.SearchInput/>
             <SearchBar.SearchBtn/>
@@ -29,8 +32,22 @@ SearchBar.SearchInput = function SearchInput(){
 }
 
 SearchBar.SearchBtn = function SearchBtn(){
+    const httpClient = useHttp()
+    const searchId = useAtomValue(findRoomSearchAtom)
+    const setRoomSearchResult = useSetAtom(roomSearchResultAtom)
+
+    const findRoom = async () => {
+        try{
+            const {data: chatRoom} = await httpClient.get<ChatRoomDto>(`http://localhost:8080/api/chat-rooms/${searchId}`)
+            setRoomSearchResult(chatRoom)
+        } catch (e) {
+            console.error(e)
+        }
+
+    }
+
     return (
-        <button className="bg-blue-500 text-white p-2 rounded-md">Search</button>
+        <Button type="button" onClick={() => findRoom()} className="bg-blue-500 text-white p-2 rounded-md">Search</Button>
     )
 }
 
