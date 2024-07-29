@@ -17,7 +17,7 @@ type SearchBarProps = {
 const SearchBar = ({label} : SearchBarProps) => {
     return (
         <div className="flex flex-col gap-4 w-full">
-            <Label className="font-thin">{label}</Label>
+            <Label>{label}</Label>
             <SearchBar.SearchInput/>
             <SearchBar.SearchBtn/>
         </div>

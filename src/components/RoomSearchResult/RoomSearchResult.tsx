@@ -37,13 +37,13 @@ const RoomSearchResult = () => {
 
     return (
         roomSearchResult &&
-        <div className="ring-1 ring-primary rounded px-4 py-6 w-full flex items-center justify-between">
+        <div className="ring-2 ring-primary rounded-lg px-4 py-6 w-full flex items-center justify-between">
             <p className="flex flex-col">
-                <span className="text-sm font-thin">Room Name:</span>
+                <span className="text-sm">Room Name:</span>
                 <span className="text-lg">{roomSearchResult?.name}</span>
             </p>
             <Button onClick={onJoinRoom} className="flex items-center">
-                <span className="text-sm font-thin">Join</span>
+                <span className="text-sm">Join</span>
                 <LogIn className="h-[1.5cap]"/>
             </Button>
         </div>

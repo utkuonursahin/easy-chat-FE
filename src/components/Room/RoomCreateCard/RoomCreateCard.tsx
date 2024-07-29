@@ -35,12 +35,12 @@ const RoomCreateCard = () => {
         }
     }
     return (
-        <Card className="rounded px-6 py-4 hover:ring-2 hover:ring-bg-primary transition-all duration-300">
+        <Card className="bg-primary/10 ring-1 ring-secondary-background rounded px-6 py-4 hover:ring-2 hover:ring-bg-primary transition-all duration-300">
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger asChild>
                     <CardContent className="hover:cursor-pointer p-0 flex flex-col items-center justify-center gap-2">
                         <CirclePlus size={28} color="#2863eb"/>
-                        <p className="text-sm capitalize font-thin">Create new room</p>
+                        <p className="text-sm capitalize">Create new room</p>
                     </CardContent>
                 </DialogTrigger>
                 <DialogContent className="w-5/6 rounded sm:max-w-[425px]">
