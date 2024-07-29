@@ -1,6 +1,6 @@
 import AppNav from "@/components/AppNav/AppNav";
 import {AppNavItem} from "@/components/AppNav/AppNavItem/AppNavItem";
-import {Cog, Home, MessagesSquare, Search} from "lucide-react";
+import {Cog, MessagesSquare, Search} from "lucide-react";
 
 export const metadata = {
   title: 'EasyChat - Dashboard',
@@ -12,17 +12,14 @@ export default function RootLayout({children}: { children: React.ReactNode }) {
       <main className="min-h-screen grid grid-rows-[calc(100vh-4rem),4rem] grid-cols-1 overflow-x-hidden">
         {children}
         <AppNav>
-            <AppNavItem href="/dashboard">
-                <Home color="#f8fafc"/>
-            </AppNavItem>
             <AppNavItem href="/chatrooms">
                 <MessagesSquare color="#f8fafc"/>
             </AppNavItem>
-            <AppNavItem href="/search">
-                <Search color="#f8fafc"/>
-            </AppNavItem>
             <AppNavItem href="/settings">
                 <Cog color="#f8fafc"/>
+            </AppNavItem>
+            <AppNavItem href="/search">
+                <Search color="#f8fafc"/>
             </AppNavItem>
         </AppNav>
       </main>

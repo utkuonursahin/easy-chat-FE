@@ -19,7 +19,7 @@ export default function RootLayout({children}: Readonly<{ children: React.ReactN
             <Provider>
                 {children}
             </Provider>
-        <Toaster/>
+        <Toaster position="top-center"/>
         </body>
         </html>
     );

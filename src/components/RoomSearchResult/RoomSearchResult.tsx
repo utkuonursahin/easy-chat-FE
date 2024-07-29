@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import {useAtom} from "jotai";
-import {findRoomSearchAtom, roomSearchResultAtom} from "@/stores/stores";
+import {roomSearchInputAtom, roomSearchResultAtom} from "@/stores/stores";
 import {Button} from "@/components/ui/button";
 import {LogIn} from "lucide-react";
 import {useHttp} from "@/hooks/useHttp";
@@ -10,7 +10,7 @@ import {toast} from "sonner";
 
 const RoomSearchResult = () => {
     const [roomSearchResult, setRoomSearchResult] = useAtom(roomSearchResultAtom)
-    const [roomSearchId, setRoomSearchId] = useAtom(findRoomSearchAtom)
+    const [roomSearchId, setRoomSearchId] = useAtom(roomSearchInputAtom)
     const httpClient = useHttp()
 
     const onJoinRoom = async () => {

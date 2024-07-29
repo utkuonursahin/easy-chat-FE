@@ -4,7 +4,7 @@ import React from 'react';
 import {Label} from "@/components/ui/label";
 import {Input} from "@/components/ui/input";
 import {useAtom, useAtomValue, useSetAtom} from "jotai";
-import {findRoomSearchAtom, roomSearchResultAtom} from "@/stores/stores";
+import {roomSearchInputAtom, roomSearchResultAtom} from "@/stores/stores";
 import {Button} from "@/components/ui/button";
 import {useHttp} from "@/hooks/useHttp";
 import {ChatRoomDto} from "@/dto/ChatRoomDto";
@@ -25,7 +25,7 @@ const SearchBar = ({label} : SearchBarProps) => {
 };
 
 SearchBar.SearchInput = function SearchInput(){
-    const [search,setSearch] = useAtom(findRoomSearchAtom)
+    const [search,setSearch] = useAtom(roomSearchInputAtom)
     return (
         <Input value={search} onChange={el => setSearch(el.target.value)} placeholder={"Search a room id"}/>
     )
@@ -33,7 +33,7 @@ SearchBar.SearchInput = function SearchInput(){
 
 SearchBar.SearchBtn = function SearchBtn(){
     const httpClient = useHttp()
-    const searchId = useAtomValue(findRoomSearchAtom)
+    const searchId = useAtomValue(roomSearchInputAtom)
     const setRoomSearchResult = useSetAtom(roomSearchResultAtom)
 
     const findRoom = async () => {

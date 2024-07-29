@@ -21,7 +21,7 @@ export default async function Page (){
                     <RoomCreateCard/>
                 </li>
                 <li>
-                    <RoomPreviewContainer chatRooms={chatRooms}/>
+                    <RoomPreviewContainer chatRoomsData={chatRooms}/>
                 </li>
             </ul>
         </div>

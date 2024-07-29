@@ -30,7 +30,7 @@ export default function FormLogin() {
         const response : GenericResponse<UserDto> = await rawResponse.json();
         localStorage.setItem("user", JSON.stringify(response.data));
         if(response.statusCode === 200) {
-            router.push("/dashboard");
+            router.push("/chatrooms");
         } else {
             console.log("Login failed");
         }
