@@ -1,40 +1,40 @@
-"use client"
+'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import * as Form from "@/components/ui/form"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import {GenericResponse} from "@/dto/GenericResponse";
-import {formLoginSchema} from "@/components/FormLogin/FormLoginSchema";
-import {useRouter} from "next/navigation";
-import {UserDto} from "@/dto/UserDto";
+import * as Form from '@/components/ui/form';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { GenericResponse } from '@/dto/GenericResponse';
+import { formLoginSchema } from '@/components/FormLogin/FormLoginSchema';
+import { useRouter } from 'next/navigation';
+import { UserDto } from '@/dto/UserDto';
 
 export default function FormLogin() {
     const form = useForm<z.infer<typeof formLoginSchema>>({
         resolver: zodResolver(formLoginSchema),
-        defaultValues: {username: "", password: ""}
-    })
+        defaultValues: { username: '', password: '' }
+    });
     const router = useRouter();
 
-    const onSubmit = async function(values: z.infer<typeof formLoginSchema>) {
+    const onSubmit = async function (values: z.infer<typeof formLoginSchema>) {
         const rawResponse = await fetch('http://localhost:8080/api/auth/login', {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(values),
             credentials: 'include',
-            cache: 'no-cache',
+            cache: 'no-cache'
         });
-        const response : GenericResponse<UserDto> = await rawResponse.json();
-        localStorage.setItem("user", JSON.stringify(response.data));
-        if(response.statusCode === 200) {
-            router.push("/chatrooms");
+        const response: GenericResponse<UserDto> = await rawResponse.json();
+        localStorage.setItem('user', JSON.stringify(response.data));
+        if (response.statusCode === 200) {
+            router.push('/chatrooms');
         } else {
-            console.log("Login failed");
+            console.log('Login failed');
         }
-    }
+    };
 
     return (
         <Form.Form {...form}>
@@ -48,9 +48,7 @@ export default function FormLogin() {
                             <Form.FormControl>
                                 <Input placeholder="kemalyilmaz" {...field} />
                             </Form.FormControl>
-                            <Form.FormDescription>
-                                Enter your username.
-                            </Form.FormDescription>
+                            <Form.FormDescription>Enter your username.</Form.FormDescription>
                             <Form.FormMessage />
                         </Form.FormItem>
                     )}
@@ -64,9 +62,7 @@ export default function FormLogin() {
                             <Form.FormControl>
                                 <Input type="password" placeholder="*********" {...field} />
                             </Form.FormControl>
-                            <Form.FormDescription>
-                                Enter your password
-                            </Form.FormDescription>
+                            <Form.FormDescription>Enter your password</Form.FormDescription>
                             <Form.FormMessage />
                         </Form.FormItem>
                     )}
@@ -74,5 +70,5 @@ export default function FormLogin() {
                 <Button type="submit">Submit</Button>
             </form>
         </Form.Form>
-    )
+    );
 }

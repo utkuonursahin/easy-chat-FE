@@ -1,25 +1,25 @@
-import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { type ClassValue, clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+    return twMerge(clsx(inputs));
 }
 
-export async function checkAuthentication(name: string, jsessionid: string){
-  const raw = await fetch('http://localhost:8080/api/auth/is-authenticated',{
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'Cookie': `${name}=${jsessionid}`
-    },
-    credentials: 'include',
-    cache: 'no-cache',
-  })
-  return await raw.json();
+export async function checkAuthentication(name: string, jsessionid: string) {
+    const raw = await fetch('http://localhost:8080/api/auth/is-authenticated', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Cookie: `${name}=${jsessionid}`
+        },
+        credentials: 'include',
+        cache: 'no-cache'
+    });
+    return await raw.json();
 }
 
-export function checkAuthorization(path: string, allowedRoles: string[], userRoles: string[]){
-  const protectedPaths: string[] = ['/dashboard']
-  if(protectedPaths.includes(path)) return allowedRoles.some(role => userRoles.includes(role));
-  else return true;
+export function checkAuthorization(path: string, allowedRoles: string[], userRoles: string[]) {
+    const protectedPaths: string[] = ['/dashboard'];
+    if (protectedPaths.includes(path)) return allowedRoles.some((role) => userRoles.includes(role));
+    else return true;
 }

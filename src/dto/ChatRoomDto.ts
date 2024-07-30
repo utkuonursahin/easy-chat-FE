@@ -1,9 +1,9 @@
-import {UUID} from "node:crypto";
-import {UserDto} from "@/dto/UserDto";
+import { UUID } from 'node:crypto';
+import { UserDto } from '@/dto/UserDto';
 
 export type ChatRoomDto = {
-    id: UUID,
-    name: string,
-    createdBy: UserDto,
-    members: UserDto[],
-}
+    id: UUID;
+    name: string;
+    createdBy: UserDto;
+    members: UserDto[];
+};

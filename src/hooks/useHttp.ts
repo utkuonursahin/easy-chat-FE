@@ -1,10 +1,10 @@
-import {GenericResponse} from "@/dto/GenericResponse";
+import { GenericResponse } from '@/dto/GenericResponse';
 
 enum UseHttpMethods {
     GET = 'GET',
     POST = 'POST',
     PATCH = 'PATCH',
-    DELETE = 'DELETE',
+    DELETE = 'DELETE'
 }
 type UseHttpParams = {
     method?: UseHttpMethods;
@@ -12,7 +12,7 @@ type UseHttpParams = {
     body?: any;
     cache?: RequestCache;
     credentials?: RequestCredentials;
-}
+};
 
 class HttpClient {
     private static instance: HttpClient;
@@ -99,6 +99,6 @@ class HttpClient {
     }
 }
 
-export const useHttp = function(): HttpClient {
+export const useHttp = function (): HttpClient {
     return HttpClient.getInstance();
-}
+};

@@ -1,6 +1,6 @@
-import {UUID} from "node:crypto";
-import {UserDto} from "@/dto/UserDto";
-import {ChatRoomDto} from "@/dto/ChatRoomDto";
+import { UUID } from 'node:crypto';
+import { UserDto } from '@/dto/UserDto';
+import { ChatRoomDto } from '@/dto/ChatRoomDto';
 
 export type MessageDto = {
     id: UUID;
@@ -8,4 +8,4 @@ export type MessageDto = {
     receiver: ChatRoomDto;
     content: string;
     createdAt: Date;
-}
+};
