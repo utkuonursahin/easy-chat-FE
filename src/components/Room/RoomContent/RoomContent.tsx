@@ -26,29 +26,31 @@ const RoomContent = ({room, messages}: RoomContentProps) => {
     const user = JSON.parse(window.localStorage.getItem('user')!) as UserDto;
     const [msgAtom, setMsgAtom] = useAtom(messagesAtom)
     const [socket, setSocket] = useAtom(socketAtom)
+
+    const onGetMessageEvent = (message: MessageDto) => {
+        setMsgAtom((prev) => [message,...prev])
+    }
+
     useEffect(() => {
-        let sc = null;
-        if(!socket) {
-            sc = io("ws://192.168.1.5:8085")
-            setSocket(sc)
-        }
         setMsgAtom(messages.content)
-        sc?.emit('join_room',room)
-        sc?.on('get_message', (message: MessageDto) => {
-            setMsgAtom((prev) => [message,...prev])
-        })
+        if(!socket) setSocket(io("ws://192.168.1.5:8085"))
+    }, []);
+
+    useEffect(() => {
+        if(!socket) return
+        socket.emit('join_room',room)
+        socket.on('get_message', onGetMessageEvent)
         return () => {
-            sc?.emit('leave_room',room)
-            sc?.off('get_message')
-            sc?.disconnect()
+            socket.emit('leave_room',room)
+            socket.disconnect()
             setSocket(null)
         }
-    },[])
+    },[socket])
 
     return (
         <div className="flex flex-col-reverse py-2 gap-2 overflow-y-scroll">
-            {msgAtom.map((message) => (
-                <div key={message.id} className={`flex flex-col w-fit gap-1 px-4 py-2 rounded-lg ${user.id === message.sender.id ? 'text-right bg-primary/30 self-end' : 'text-left bg-primary/10'}`}>
+            {msgAtom.map((message,index) => (
+                <div key={message.id || index} className={`flex flex-col w-fit gap-1 px-4 py-2 rounded-lg ${user.id === message.sender.id ? 'text-right bg-primary/30 self-end' : 'text-left bg-primary/10'}`}>
                     <p className="text-xs flex justify-between items-center gap-4">
                         <span className="text-primary">{user.id === message.sender.id ? 'Me' : message.sender.username}</span>
                         <span>{messagesDateFormat.format(new Date(message.createdAt))}</span>
