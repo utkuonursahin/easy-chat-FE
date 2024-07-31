@@ -1,12 +1,12 @@
 'use client';
 import React from 'react';
-import { useAtom } from 'jotai';
-import { roomSearchInputAtom, roomSearchResultAtom } from '@/stores/stores';
-import { Button } from '@/components/ui/button';
-import { LogIn } from 'lucide-react';
-import { useHttp } from '@/hooks/useHttp';
-import { ChatRoomDto } from '@/dto/ChatRoomDto';
-import { toast } from 'sonner';
+import {useAtom} from 'jotai';
+import {roomSearchInputAtom, roomSearchResultAtom} from '@/stores/stores';
+import {Button} from '@/components/ui/button';
+import {LogIn} from 'lucide-react';
+import {useHttp} from '@/hooks/useHttp';
+import {ChatRoomDto} from '@/dto/ChatRoomDto';
+import {toast} from 'sonner';
 
 const RoomSearchResult = () => {
     const [roomSearchResult, setRoomSearchResult] = useAtom(roomSearchResultAtom);
@@ -39,7 +39,7 @@ const RoomSearchResult = () => {
 
     return (
         roomSearchResult && (
-            <div className="ring-2 ring-primary rounded-lg px-4 py-6 w-full flex items-center justify-between">
+            <div className="ring-1 ring-primary rounded-md px-4 py-6 w-full flex items-center justify-between">
                 <p className="flex flex-col">
                     <span className="text-sm">Room Name:</span>
                     <span className="text-lg">{roomSearchResult?.name}</span>

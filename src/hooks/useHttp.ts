@@ -15,15 +15,6 @@ type UseHttpParams = {
 };
 
 class HttpClient {
-    private static instance: HttpClient;
-    private constructor() {}
-    static getInstance(): HttpClient {
-        if (!HttpClient.instance) {
-            HttpClient.instance = new HttpClient();
-        }
-        return HttpClient.instance;
-    }
-
     private method: UseHttpMethods = UseHttpMethods.GET;
     private headers: any = {};
     private body: any = {};
@@ -63,7 +54,10 @@ class HttpClient {
     async get<T>(url: string): Promise<GenericResponse<T>> {
         return await this.fetch(url, {
             method: UseHttpMethods.GET,
-            headers: this.headers,
+            headers: {
+                'Content-Type': 'application/json',
+                ...this.headers
+            },
             cache: this.cache,
             credentials: this.credentials
         });
@@ -72,7 +66,10 @@ class HttpClient {
     async post<T>(url: string): Promise<GenericResponse<T>> {
         return await this.fetch(url, {
             method: UseHttpMethods.POST,
-            headers: this.headers,
+            headers: {
+                'Content-Type': 'application/json',
+                ...this.headers
+            },
             body: this.body,
             cache: this.cache,
             credentials: this.credentials
@@ -82,7 +79,10 @@ class HttpClient {
     async patch<T>(url: string): Promise<GenericResponse<T>> {
         return await this.fetch(url, {
             method: UseHttpMethods.PATCH,
-            headers: this.headers,
+            headers: {
+                'Content-Type': 'application/json',
+                ...this.headers
+            },
             body: this.body,
             cache: this.cache,
             credentials: this.credentials
@@ -92,7 +92,10 @@ class HttpClient {
     async del(url: string): Promise<GenericResponse<boolean>> {
         return await this.fetch(url, {
             method: UseHttpMethods.DELETE,
-            headers: this.headers,
+            headers: {
+                'Content-Type': 'application/json',
+                ...this.headers
+            },
             cache: this.cache,
             credentials: this.credentials
         });
@@ -100,5 +103,5 @@ class HttpClient {
 }
 
 export const useHttp = function (): HttpClient {
-    return HttpClient.getInstance();
+    return new HttpClient();
 };

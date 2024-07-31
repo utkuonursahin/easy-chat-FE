@@ -8,19 +8,20 @@ import { chatRoomsAtom } from '@/stores/stores';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { useHttp } from '@/hooks/useHttp';
+import { Separator } from '@/components/ui/separator';
 
 type ChatRoomCardContainerProps = {
     chatRoomsData: ChatRoomDto[];
 };
 
-export default function RoomPreviewContainer({ chatRoomsData }: ChatRoomCardContainerProps) {
+export default function RoomPreview({ chatRoomsData }: ChatRoomCardContainerProps) {
     const router = useRouter();
     const httpClient = useHttp();
     const [chatRooms, setChatRooms] = useAtom(chatRoomsAtom);
 
     useEffect(() => {
         setChatRooms(chatRoomsData);
-    }, []);
+    }, [chatRoomsData]);
 
     const onRoomClick = async (event: any) => {
         const id = ((event.target as HTMLElement).closest('.room-card') as HTMLElement)?.dataset.roomId || '';
@@ -41,9 +42,9 @@ export default function RoomPreviewContainer({ chatRoomsData }: ChatRoomCardCont
     };
 
     return (
-        <ul onClick={onRoomClick} className="flex flex-col gap-4">
+        <ul onClick={onRoomClick} className="flex flex-col">
             {chatRooms.map((room, index) => (
-                <li key={index}>
+                <li key={room.id}>
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -52,6 +53,7 @@ export default function RoomPreviewContainer({ chatRoomsData }: ChatRoomCardCont
                     >
                         <RoomPreviewCard data={room} />
                     </motion.div>
+                    <Separator />
                 </li>
             ))}
         </ul>

@@ -12,7 +12,7 @@ export function AppNavItem({ href, children }: AppNavItemProps) {
     return (
         <Link
             href={href}
-            className={`p-2 rounded-sm ${pathName.includes(href) && 'bg-primary-foreground/20'} transition-all duration-300`}
+            className={`p-3 rounded-full ${pathName.includes(href) && 'bg-primary-foreground/20'} transition-all duration-300`}
         >
             {children}
         </Link>

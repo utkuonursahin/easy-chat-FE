@@ -49,10 +49,10 @@ const RoomContent = ({ room, messages }: RoomContentProps) => {
 
     return (
         <div className="flex flex-col-reverse py-2 gap-2 overflow-y-scroll">
-            {msgAtom.map((message, index) => (
+            {msgAtom.map((message) => (
                 <div
-                    key={message.id || index}
-                    className={`flex flex-col w-fit gap-1 px-4 py-2 rounded-lg ${user.id === message.sender.id ? 'text-right bg-primary/30 self-end' : 'text-left bg-primary/10'}`}
+                    key={message.id}
+                    className={`flex flex-col w-fit gap-1 px-4 py-2 rounded-md ${user.id === message.sender.id ? 'text-right bg-primary/30 self-end' : 'text-left bg-primary/10'}`}
                 >
                     <p className="text-xs flex justify-between items-center gap-4">
                         <span className="text-primary">

@@ -19,23 +19,20 @@ import { Button } from '@/components/ui/button';
 import { ChatRoomDto } from '@/dto/ChatRoomDto';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import { useHttp } from '@/hooks/useHttp';
 
 const RoomCreateCard = () => {
     const [roomName, setRoomName] = useState('Cosy chat room');
     const [open, setOpen] = useState(false);
     const router = useRouter();
+    const httpClient = useHttp();
     const onSubmit = async () => {
-        const rawResponse = await fetch('http://localhost:8080/api/chat-rooms', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name: roomName }),
-            credentials: 'include',
-            cache: 'no-cache'
-        });
         const {
             statusCode,
             data: { name }
-        }: GenericResponse<ChatRoomDto> = await rawResponse.json();
+        }: GenericResponse<ChatRoomDto> = await httpClient
+            .setBody(JSON.stringify({ name: roomName }))
+            .post('http://localhost:8080/api/chat-rooms');
         if (statusCode === 201) {
             setOpen((prevState) => !prevState);
             toast.success('Room created successfully', { description: `Room Name: ${name}` });
@@ -43,17 +40,17 @@ const RoomCreateCard = () => {
         }
     };
     return (
-        <Card className="bg-primary/10 ring-1 ring-secondary-background rounded px-6 py-4 hover:ring-2 hover:ring-bg-primary transition-all duration-300">
+        <Card className="bg-primary/10 ring-1 ring-secondary-background rounded py-3 hover:ring-2 hover:ring-bg-primary transition-all duration-300">
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger asChild>
-                    <CardContent className="hover:cursor-pointer p-0 flex flex-col items-center justify-center gap-2">
+                    <CardContent className="hover:cursor-pointer p-0 flex flex-col items-center justify-center gap-1">
                         <CirclePlus size={28} color="#2863eb" />
-                        <p className="text-sm capitalize">Create new room</p>
+                        <p className="text-sm capitalize text-primary">Create new room</p>
                     </CardContent>
                 </DialogTrigger>
                 <DialogContent className="w-5/6 rounded sm:max-w-[425px]">
                     <DialogHeader>
-                        <DialogTitle className="font-thin">Create Room</DialogTitle>
+                        <DialogTitle className="font-normal">Create Room</DialogTitle>
                         <DialogDescription>
                             Create a new room to start chatting with your friends.
                         </DialogDescription>

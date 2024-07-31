@@ -4,6 +4,7 @@ import './globals.css';
 import { Provider } from 'jotai';
 import { Toaster } from 'sonner';
 import { GeistSans } from 'geist/font/sans';
+
 export const metadata: Metadata = {
     title: 'Easy Chat',
     description: 'No privacy violation. No tracking. Just chat.'
@@ -14,7 +15,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <html lang="en">
             <body className={`${GeistSans.className} bg-primary-foreground`}>
                 <Provider>{children}</Provider>
-                <Toaster position="top-center" />
+                <Toaster richColors={true} position="top-center" />
             </body>
         </html>
     );

@@ -11,29 +11,31 @@ import { GenericResponse } from '@/dto/GenericResponse';
 import { formLoginSchema } from '@/components/FormLogin/FormLoginSchema';
 import { useRouter } from 'next/navigation';
 import { UserDto } from '@/dto/UserDto';
+import { userAtom } from '@/stores/stores';
+import { useSetAtom } from 'jotai';
+import { useHttp } from '@/hooks/useHttp';
+import { toast } from 'sonner';
 
 export default function FormLogin() {
     const form = useForm<z.infer<typeof formLoginSchema>>({
         resolver: zodResolver(formLoginSchema),
-        defaultValues: { username: '', password: '' }
+        defaultValues: { email: '', password: '' }
     });
     const router = useRouter();
+    const setUserAtom = useSetAtom(userAtom);
+    const httpClient = useHttp();
 
     const onSubmit = async function (values: z.infer<typeof formLoginSchema>) {
-        const rawResponse = await fetch('http://localhost:8080/api/auth/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(values),
-            credentials: 'include',
-            cache: 'no-cache'
-        });
-        const response: GenericResponse<UserDto> = await rawResponse.json();
-        localStorage.setItem('user', JSON.stringify(response.data));
-        if (response.statusCode === 200) {
+        const { data: user, statusCode }: GenericResponse<UserDto> = await httpClient
+            .setBody(JSON.stringify(values))
+            .post('http://localhost:8080/api/auth/login');
+        setUserAtom(user);
+        if (statusCode === 200) {
+            toast.success(`Welcome back, ${user.username}`, {
+                description: 'You have successfully logged in.'
+            });
             router.push('/chatrooms');
-        } else {
-            console.log('Login failed');
-        }
+        } else toast.error('Sorry, your credentials seem invalid.', { description: 'Please try again.' });
     };
 
     return (
@@ -41,14 +43,14 @@ export default function FormLogin() {
             <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
                 <Form.FormField
                     control={form.control}
-                    name="username"
+                    name="email"
                     render={({ field }) => (
                         <Form.FormItem>
-                            <Form.FormLabel>Username</Form.FormLabel>
+                            <Form.FormLabel>Email</Form.FormLabel>
                             <Form.FormControl>
-                                <Input placeholder="kemalyilmaz" {...field} />
+                                <Input placeholder="marcus@mail.com" {...field} />
                             </Form.FormControl>
-                            <Form.FormDescription>Enter your username.</Form.FormDescription>
+                            <Form.FormDescription>Enter your email</Form.FormDescription>
                             <Form.FormMessage />
                         </Form.FormItem>
                     )}

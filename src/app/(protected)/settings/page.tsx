@@ -1,10 +1,14 @@
 import React from 'react';
+import FormEditPersonalDetails from '@/components/FormEditPersonalDetails/FormEditPersonalDetails';
 
 const Page = () => {
     return (
-        <div>
-            <h1>Settings</h1>
-        </div>
+        <section>
+            <div>
+                <h1>Personal Details</h1>
+                <FormEditPersonalDetails />
+            </div>
+        </section>
     );
 };
 
