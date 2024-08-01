@@ -1,5 +1,6 @@
 import React from 'react';
-import PersonalSettings from '@/components/PersonalSettings/PersonalSettings';
+import PersonalSettingsForm from '@/components/PersonalSettingsForm/PersonalSettingsForm';
+import LogoutButton from '@/components/LogoutButton/LogoutButton';
 
 const Page = () => {
     return (
@@ -7,7 +8,10 @@ const Page = () => {
             <header>
                 <h1 className="text-2xl font-semibold text-primary">Settings</h1>
             </header>
-            <PersonalSettings />
+            <div className="grid gap-4">
+                <PersonalSettingsForm />
+                <LogoutButton />
+            </div>
         </section>
     );
 };
