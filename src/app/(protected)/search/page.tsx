@@ -4,8 +4,10 @@ import RoomSearchResult from '@/components/RoomSearchResult/RoomSearchResult';
 
 const Page = () => {
     return (
-        <section className="p-10 flex flex-col items-center gap-8">
-            <h2 className="text-2xl">Find Your Friends' Room</h2>
+        <section className="flex flex-col items-center gap-4 p-4">
+            <header className="self-start">
+                <h1 className="text-2xl font-semibold text-primary">Search Room</h1>
+            </header>
             <SearchBar label="Room Id: " />
             <RoomSearchResult />
         </section>

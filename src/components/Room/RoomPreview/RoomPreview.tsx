@@ -8,7 +8,6 @@ import { chatRoomsAtom } from '@/stores/stores';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { useHttp } from '@/hooks/useHttp';
-import { Separator } from '@/components/ui/separator';
 
 type ChatRoomCardContainerProps = {
     chatRoomsData: ChatRoomDto[];
@@ -42,7 +41,7 @@ export default function RoomPreview({ chatRoomsData }: ChatRoomCardContainerProp
     };
 
     return (
-        <ul onClick={onRoomClick} className="flex flex-col">
+        <ul onClick={onRoomClick} className="flex flex-col gap-2">
             {chatRooms.map((room, index) => (
                 <li key={room.id}>
                     <motion.div
@@ -53,7 +52,6 @@ export default function RoomPreview({ chatRoomsData }: ChatRoomCardContainerProp
                     >
                         <RoomPreviewCard data={room} />
                     </motion.div>
-                    <Separator />
                 </li>
             ))}
         </ul>

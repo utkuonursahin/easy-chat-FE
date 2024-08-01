@@ -4,6 +4,7 @@ import { GenericResponse } from '@/dto/GenericResponse';
 import { ChatRoomDto } from '@/dto/ChatRoomDto';
 import RoomPreview from '@/components/Room/RoomPreview/RoomPreview';
 import { useHttp } from '@/hooks/useHttp';
+import React from 'react';
 
 async function getData() {
     const httpClient = useHttp();
@@ -16,9 +17,12 @@ async function getData() {
 export default async function Page() {
     const chatRooms = await getData();
     return (
-        <div className="flex flex-col gap-4 p-4 h-[calc(100vh-4rem)] overflow-y-scroll">
+        <section className="flex flex-col gap-4 p-4 h-[calc(100vh-4rem)] overflow-y-scroll">
+            <header>
+                <h1 className="text-2xl font-semibold text-primary">Chat Rooms</h1>
+            </header>
             <RoomCreateCard />
             <RoomPreview chatRoomsData={chatRooms} />
-        </div>
+        </section>
     );
 }

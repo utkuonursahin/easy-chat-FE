@@ -8,7 +8,7 @@ import * as Form from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { GenericResponse } from '@/dto/GenericResponse';
-import { formLoginSchema } from '@/components/FormLogin/FormLoginSchema';
+import { loginFormSchema } from '@/components/LoginForm/LoginFormSchema';
 import { useRouter } from 'next/navigation';
 import { UserDto } from '@/dto/UserDto';
 import { userAtom } from '@/stores/stores';
@@ -16,16 +16,16 @@ import { useSetAtom } from 'jotai';
 import { useHttp } from '@/hooks/useHttp';
 import { toast } from 'sonner';
 
-export default function FormLogin() {
-    const form = useForm<z.infer<typeof formLoginSchema>>({
-        resolver: zodResolver(formLoginSchema),
+export default function LoginForm() {
+    const form = useForm<z.infer<typeof loginFormSchema>>({
+        resolver: zodResolver(loginFormSchema),
         defaultValues: { email: '', password: '' }
     });
     const router = useRouter();
     const setUserAtom = useSetAtom(userAtom);
     const httpClient = useHttp();
 
-    const onSubmit = async function (values: z.infer<typeof formLoginSchema>) {
+    const onSubmit = async function (values: z.infer<typeof loginFormSchema>) {
         const { data: user, statusCode }: GenericResponse<UserDto> = await httpClient
             .setBody(JSON.stringify(values))
             .post('http://localhost:8080/api/auth/login');
