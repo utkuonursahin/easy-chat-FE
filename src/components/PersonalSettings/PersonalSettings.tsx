@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import LogoutButton from '@/components/PersonalSettings/LogoutButton/LogoutButton';
 
 const PersonalSettings = () => {
     return (
@@ -62,11 +63,7 @@ const PersonalSettings = () => {
                     <Button>Save</Button>
                 </CardFooter>
             </Card>
-            <div>
-                <Button variant="outline" className="w-full">
-                    Logout
-                </Button>
-            </div>
+            <LogoutButton />
         </div>
     );
 };
