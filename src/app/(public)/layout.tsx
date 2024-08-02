@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     return (
-        <main className="min-h-screen grid grid-cols-[8.5%,1fr,8.5%] grid-rows-[10%,1fr,min-content]">
+        <main className="min-h-screen grid grid-cols-[8.5%,1fr,8.5%] grid-rows-[1fr,min-content]">
             {children}
         </main>
     );

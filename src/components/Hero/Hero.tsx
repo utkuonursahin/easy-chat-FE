@@ -3,10 +3,10 @@ import { Button } from '@/components/ui/button';
 
 const Hero = () => {
     return (
-        <section className="col-start-2 row-start-2 flex flex-col gap-16 justify-center items-center">
+        <section className="col-start-2 flex flex-col gap-16 justify-center items-center">
             <h1 className="flex flex-col gap-4 text-3xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-cyan-600 to-green-600 ">
                 Easy chat with your loved ones!
-                <span className="text-neutral-700 font-thin text-base">
+                <span className="text-neutral-700 font-normal text-base">
                     No subscription, no privacy leak, no limit...
                 </span>
             </h1>
