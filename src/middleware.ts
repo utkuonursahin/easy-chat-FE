@@ -9,5 +9,5 @@ export default async function middleware(req: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/dashboard/:path*', '/chatrooms/:path*', '/search/:path*', '/settings/:path*']
+    matcher: ['/chatrooms/:path*', '/search/:path*', '/settings/:path*']
 };

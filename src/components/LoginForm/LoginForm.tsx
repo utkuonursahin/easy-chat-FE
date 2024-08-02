@@ -29,8 +29,8 @@ export default function LoginForm() {
         const { data: user, statusCode }: GenericResponse<UserDto> = await httpClient
             .setBody(JSON.stringify(values))
             .post('http://localhost:8080/api/auth/login');
-        setUserAtom(user);
         if (statusCode === 200) {
+            setUserAtom(user);
             toast.success(`Welcome back, ${user.username}`, {
                 description: 'You have successfully logged in.'
             });

@@ -7,9 +7,13 @@ import { useForm } from 'react-hook-form';
 import { personalSettingsFormSchema } from '@/components/PersonalSettingsForm/PersonalSettingsFormSchema';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useAtomValue } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { userAtom } from '@/stores/stores';
 import * as Form from '@/components/ui/form';
+import { useHttp } from '@/hooks/useHttp';
+import { toast } from 'sonner';
+import { GenericResponse } from '@/dto/GenericResponse';
+import { UserDto } from '@/dto/UserDto';
 
 const PersonalSettingsForm = () => {
     const user = useAtomValue(userAtom);
@@ -23,14 +27,35 @@ const PersonalSettingsForm = () => {
             confirmPassword: ''
         }
     });
-    const handleFormSubmit = (data: z.infer<typeof personalSettingsFormSchema>) => {};
+    const setUserAtom = useSetAtom(userAtom);
+    const httpClient = useHttp();
+    const handleFormSubmit = async (values: z.infer<typeof personalSettingsFormSchema>) => {
+        const {
+            data: updatedUser,
+            statusCode,
+            message
+        }: GenericResponse<UserDto> = await httpClient
+            .setBody(JSON.stringify(values))
+            .patch('http://localhost:8080/api/user/me');
+        if (statusCode === 200) {
+            setUserAtom(updatedUser);
+            form.reset({
+                username: updatedUser.username,
+                email: updatedUser.email,
+                oldPassword: '',
+                newPassword: '',
+                confirmPassword: ''
+            });
+            toast.success(message);
+        } else toast.error(message);
+    };
     return (
         <Form.Form {...form}>
             <form onSubmit={form.handleSubmit(handleFormSubmit)} className="flex flex-col gap-4">
                 <Card>
                     <CardHeader>
                         <CardTitle>Username</CardTitle>
-                        <CardDescription>Update your username.</CardDescription>
+                        <CardDescription className="text-primary">Update your username.</CardDescription>
                     </CardHeader>
                     <CardContent className="flex flex-col gap-2">
                         <Form.FormField
@@ -55,7 +80,7 @@ const PersonalSettingsForm = () => {
                 <Card>
                     <CardHeader>
                         <CardTitle>Email</CardTitle>
-                        <CardDescription>Update your email.</CardDescription>
+                        <CardDescription className="text-primary">Update your email.</CardDescription>
                     </CardHeader>
                     <CardContent className="grid grid-rows-[repeat(2,min-content)] grid-cols-[1fr,min-content] gap-2">
                         <Form.FormField
@@ -76,7 +101,7 @@ const PersonalSettingsForm = () => {
                 <Card>
                     <CardHeader>
                         <CardTitle>Password</CardTitle>
-                        <CardDescription>Change your password.</CardDescription>
+                        <CardDescription className="text-primary">Change your password.</CardDescription>
                     </CardHeader>
                     <CardContent className="flex flex-col gap-4">
                         <Form.FormField
