@@ -1,35 +1,47 @@
-import React from 'react';
-import { useAtomValue } from 'jotai/index';
-import { messagesAtom, userAtom } from '@/stores/stores';
+import React, { useEffect, useState } from 'react';
+import { messagesAtom } from '@/stores/stores';
+import Message from '@/components/Room/RoomContent/Message/Message';
+import { GenericResponse } from '@/dto/GenericResponse';
+import { PaginatedMessageDto } from '@/dto/PaginatedMessageDto';
+import { useInView } from 'react-intersection-observer';
+import { useHttp } from '@/hooks/useHttp';
+import { useAtom } from 'jotai';
+import { ChatRoomDto } from '@/dto/ChatRoomDto';
+import { MessageDto } from '@/dto/MessageDto';
 
-const messagesDateFormat = new Intl.DateTimeFormat('en-GB', {
-    hourCycle: 'h24',
-    hour: 'numeric',
-    minute: 'numeric',
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric'
-});
+type MessagesListProps = {
+    room: ChatRoomDto;
+    messages: PaginatedMessageDto;
+};
 
-const MessagesList = () => {
-    const user = useAtomValue(userAtom);
-    const messagesAtomValue = useAtomValue(messagesAtom);
+const MessagesList = ({ room, messages }: MessagesListProps) => {
+    const { ref, inView, entry } = useInView({
+        threshold: 1
+    });
+    const httpClient = useHttp();
+    const [pageCounter, setPageCounter] = useState(0);
+    const [messagesAtomValue, setMessagesAtom] = useAtom(messagesAtom);
+
+    const fetchOldMessages = async () => {
+        const {
+            data: { content: oldMessages }
+        }: GenericResponse<PaginatedMessageDto> = await httpClient.get(
+            `http://localhost:8080/api/messages/receiver/${room.id}?page=${pageCounter + 1}&size=10`
+        );
+        setMessagesAtom((prev) => [...prev, ...oldMessages]);
+        setPageCounter((prev) => prev + 1);
+    };
+
+    useEffect(() => {
+        if (inView && messages.totalPages > pageCounter) fetchOldMessages();
+    }, [inView]);
+
     return (
         <>
-            {messagesAtomValue.map((message) => (
-                <div
-                    key={message.id}
-                    className={`flex flex-col w-fit gap-1 px-4 py-2 rounded-md ${user.id === message.sender.id ? 'text-right bg-primary/30 self-end' : 'text-left bg-primary/10'}`}
-                >
-                    <p className="text-xs flex justify-between items-center gap-4">
-                        <span className="text-primary">
-                            {user.id === message.sender.id ? 'Me' : message.sender.username}
-                        </span>
-                        <span>{messagesDateFormat.format(new Date(message.createdAt))}</span>
-                    </p>
-                    <p className="text-secondary-foreground">{message.content}</p>
-                </div>
+            {messagesAtomValue.slice(0, -1).map((message) => (
+                <Message key={message.id} message={message} />
             ))}
+            <Message message={messagesAtomValue.at(-1) as MessageDto} ref={ref} />
         </>
     );
 };
