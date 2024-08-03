@@ -15,7 +15,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <html lang="en">
             <body className={`${GeistSans.className} bg-primary-foreground`}>
                 <Provider>{children}</Provider>
-                <Toaster richColors={true} position="top-center" />
+                <Toaster richColors={true} />
             </body>
         </html>
     );

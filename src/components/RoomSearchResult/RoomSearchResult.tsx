@@ -1,12 +1,12 @@
 'use client';
 import React from 'react';
-import {useAtom} from 'jotai';
-import {roomSearchInputAtom, roomSearchResultAtom} from '@/stores/stores';
-import {Button} from '@/components/ui/button';
-import {LogIn} from 'lucide-react';
-import {useHttp} from '@/hooks/useHttp';
-import {ChatRoomDto} from '@/dto/ChatRoomDto';
-import {toast} from 'sonner';
+import { useAtom } from 'jotai';
+import { roomSearchInputAtom, roomSearchResultAtom } from '@/stores/stores';
+import { Button } from '@/components/ui/button';
+import { LogIn } from 'lucide-react';
+import { useHttp } from '@/hooks/useHttp';
+import { ChatRoomDto } from '@/dto/ChatRoomDto';
+import { toast } from 'sonner';
 
 const RoomSearchResult = () => {
     const [roomSearchResult, setRoomSearchResult] = useAtom(roomSearchResultAtom);
@@ -21,7 +21,7 @@ const RoomSearchResult = () => {
 
             switch (statusCode) {
                 case 200:
-                    toast.success(`Joined room ${chatRoom.name}`);
+                    toast.success(`Joined room: ${chatRoom.name}`);
                     break;
                 case 409:
                     toast.error(`Already joined in room: ${roomSearchResult?.name}`);

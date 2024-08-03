@@ -23,7 +23,7 @@ const LogoutButton = () => {
     const handleClick = async () => {
         const { statusCode } = await httpClient.get('http://localhost:8080/api/auth/logout');
         if (statusCode === 200) {
-            toast.success('Logged out successfully');
+            toast.warning('You are logged out!');
             setUserStorage(RESET);
             router.push('/login');
         }

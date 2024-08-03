@@ -23,19 +23,18 @@ export default function RoomPreview({ chatRoomsData }: ChatRoomCardContainerProp
     }, [chatRoomsData]);
 
     const onRoomClick = async (event: any) => {
-        const id = ((event.target as HTMLElement).closest('.room-card') as HTMLElement)?.dataset.roomId || '';
-        const shouldCopy = (event.target as HTMLElement).closest('.copy-id');
-        const shouldLeave = (event.target as HTMLElement).closest('.leave-room');
-        if (shouldCopy) {
+        const target = event.target as HTMLElement;
+        const id = (target.closest('.room-card') as HTMLElement)?.dataset.roomId || '';
+        if (target.closest('.copy-id')) {
             await navigator.clipboard.writeText(id);
-            toast.success('Copied to clipboard', { description: `Room ID: ${id}` });
-        } else if (shouldLeave) {
+            toast.success('Room id copied to clipboard!', { description: id });
+        } else if (target.closest('.leave-room')) {
             try {
                 await httpClient.del(`http://localhost:8080/api/chat-rooms/leave/${id}`);
                 setChatRooms((prev) => prev.filter((room) => room.id !== id));
-                toast.success('Left room', { description: `Room ID: ${id}` });
+                toast.info('Leaved the room!', { description: `Room ID: ${id}` });
             } catch (e: any) {
-                toast.error('Failed to leave room', { description: e.message });
+                toast.error('Failed to leave room!', { description: e.message });
             }
         } else router.push(`/chatrooms/${id}`);
     };
