@@ -1,12 +1,13 @@
 import RoomHeader from '@/components/Room/RoomHeader/RoomHeader';
-import {cookies} from 'next/headers';
-import {GenericResponse} from '@/dto/GenericResponse';
-import {ChatRoomDto} from '@/dto/ChatRoomDto';
+import { cookies } from 'next/headers';
+import { GenericResponse } from '@/dto/GenericResponse';
+import { ChatRoomDto } from '@/dto/ChatRoomDto';
 import Room from '@/components/Room/Room';
 import React from 'react';
-import {PaginatedMessageDto} from '@/dto/PaginatedMessageDto';
+import { PaginatedMessageDto } from '@/dto/PaginatedMessageDto';
 import RoomContent from '@/components/Room/RoomContent/RoomContent';
 import RoomMessageInput from '@/components/Room/RoomMessageInput/RoomMessageInput';
+import { useHttp } from '@/hooks/useHttp';
 
 type RoomData = {
     room: ChatRoomDto;
@@ -14,19 +15,15 @@ type RoomData = {
 };
 
 async function getData(id: string): Promise<RoomData> {
-    const options: RequestInit = {
-        method: 'GET',
-        headers: { Cookie: cookies().toString() },
-        cache: 'no-cache',
-        credentials: 'include'
-    };
-    const roomResponse = await fetch(`http://localhost:8080/api/chat-rooms/${id}`, options);
-    const { data: room }: GenericResponse<ChatRoomDto> = await roomResponse.json();
-    const messagesResponse = await fetch(
-        `http://localhost:8080/api/messages/receiver/${id}?page=0&size=50`,
-        options
-    );
-    const { data: messages } = await messagesResponse.json();
+    const httpClient = useHttp();
+    const { data: room }: GenericResponse<ChatRoomDto> = await httpClient
+        .setHeaders({ Cookie: cookies().toString() })
+        .get(`http://localhost:8080/api/chat-rooms/${id}`);
+
+    const { data: messages }: GenericResponse<PaginatedMessageDto> = await httpClient
+        .setHeaders({ Cookie: cookies().toString() })
+        .get(`http://localhost:8080/api/messages/receiver/${id}?page=0&size=10`);
+
     return { room, messages };
 }
 

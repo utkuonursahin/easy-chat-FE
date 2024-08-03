@@ -1,38 +1,49 @@
 'use client';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PaginatedMessageDto } from '@/dto/PaginatedMessageDto';
-import { UserDto } from '@/dto/UserDto';
 import { ChatRoomDto } from '@/dto/ChatRoomDto';
-import { useAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 import { messagesAtom, socketAtom } from '@/stores/stores';
 import { MessageDto } from '@/dto/MessageDto';
 import { io } from 'socket.io-client';
+import { useInView } from 'react-intersection-observer';
+import { useHttp } from '@/hooks/useHttp';
+import { GenericResponse } from '@/dto/GenericResponse';
+import MessagesList from '@/components/Room/RoomContent/MessagesList/MessagesList';
+import { Loader } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 type RoomContentProps = {
     room: ChatRoomDto;
     messages: PaginatedMessageDto;
 };
 
-const messagesDateFormat = new Intl.DateTimeFormat('en-GB', {
-    hourCycle: 'h24',
-    hour: 'numeric',
-    minute: 'numeric',
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric'
-});
+const spinnerVariants = {
+    animate: {
+        rotate: 360,
+        transition: {
+            duration: 1,
+            ease: 'linear',
+            repeat: Infinity
+        }
+    }
+};
 
 const RoomContent = ({ room, messages }: RoomContentProps) => {
-    const user = JSON.parse(window.localStorage.getItem('user')!) as UserDto;
-    const [msgAtom, setMsgAtom] = useAtom(messagesAtom);
+    const setMessagesAtom = useSetAtom(messagesAtom);
     const [socket, setSocket] = useAtom(socketAtom);
+    const { ref, inView, entry } = useInView({
+        threshold: 1
+    });
+    const httpClient = useHttp();
+    const [pageCounter, setPageCounter] = useState(1);
 
     const onGetMessageEvent = (message: MessageDto) => {
-        setMsgAtom((prev) => [message, ...prev]);
+        setMessagesAtom((prev) => [message, ...prev]);
     };
 
     useEffect(() => {
-        setMsgAtom(messages.content);
+        setMessagesAtom(messages.content);
         if (!socket) setSocket(io('ws://192.168.1.5:8085'));
     }, []);
 
@@ -47,22 +58,30 @@ const RoomContent = ({ room, messages }: RoomContentProps) => {
         };
     }, [socket]);
 
+    const fetchOldMessages = async () => {
+        const {
+            data: { content: oldMessages }
+        }: GenericResponse<PaginatedMessageDto> = await httpClient.get(
+            `http://localhost:8080/api/messages/receiver/${room.id}?page=${pageCounter}&size=10`
+        );
+        setMessagesAtom((prev) => [...prev, ...oldMessages]);
+        setPageCounter((prev) => prev + 1);
+    };
+
+    useEffect(() => {
+        if (inView && messages.totalPages > pageCounter) fetchOldMessages();
+    }, [inView]);
+
     return (
         <div className="flex flex-col-reverse py-2 gap-2 overflow-y-scroll">
-            {msgAtom.map((message) => (
-                <div
-                    key={message.id}
-                    className={`flex flex-col w-fit gap-1 px-4 py-2 rounded-md ${user.id === message.sender.id ? 'text-right bg-primary/30 self-end' : 'text-left bg-primary/10'}`}
-                >
-                    <p className="text-xs flex justify-between items-center gap-4">
-                        <span className="text-primary">
-                            {user.id === message.sender.id ? 'Me' : message.sender.username}
-                        </span>
-                        <span>{messagesDateFormat.format(new Date(message.createdAt))}</span>
-                    </p>
-                    <p className="text-secondary-foreground">{message.content}</p>
+            <MessagesList />
+            {messages.totalPages > pageCounter && (
+                <div ref={ref} className="flex items-center justify-center">
+                    <motion.div animate="animate" variants={spinnerVariants}>
+                        <Loader />
+                    </motion.div>
                 </div>
-            ))}
+            )}
         </div>
     );
 };
