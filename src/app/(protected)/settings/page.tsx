@@ -1,17 +1,20 @@
 import React from 'react';
 import PersonalSettingsForm from '@/components/PersonalSettingsForm/PersonalSettingsForm';
 import LogoutButton from '@/components/LogoutButton/LogoutButton';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 const Page = () => {
     return (
-        <section className="overflow-y-scroll w-full flex flex-col gap-4 bg-background text-foreground p-4 md:p-6 lg:p-8">
+        <section className="w-full flex flex-col gap-4 bg-background text-foreground p-4 md:p-6 lg:p-8">
             <header>
                 <h1 className="text-2xl font-semibold text-primary">Settings</h1>
             </header>
-            <div className="grid gap-4">
-                <PersonalSettingsForm />
-                <LogoutButton />
-            </div>
+            <ScrollArea>
+                <div className="grid gap-4">
+                    <PersonalSettingsForm />
+                    <LogoutButton />
+                </div>
+            </ScrollArea>
         </section>
     );
 };

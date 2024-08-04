@@ -17,7 +17,7 @@ const Message = forwardRef(({ message }: { message: MessageDto }, ref: any) => {
     return (
         <div
             ref={ref}
-            className={`flex flex-col w-fit gap-1 px-4 py-2 rounded-md ${user.id === message?.sender.id ? 'text-right bg-primary/30 self-end' : 'text-left bg-primary/10'}`}
+            className={`flex flex-col w-fit gap-1 px-4 py-2 rounded-md ${user.id === message?.sender.id ? 'bg-primary/30 self-end' : 'bg-primary/10'}`}
         >
             <p className="text-xs flex justify-between items-center gap-4">
                 <span className="text-primary">

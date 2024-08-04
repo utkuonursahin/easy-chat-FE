@@ -33,7 +33,7 @@ export default async function Page({ params }: { params: { roomId: string } }) {
         <section>
             <Room>
                 <RoomHeader>
-                    <p className="capitalize">{room.name}</p>
+                    <p className="normal-case">{room.name}</p>
                 </RoomHeader>
                 <RoomContent room={room} messages={messages} />
                 <RoomMessageInput room={room} />

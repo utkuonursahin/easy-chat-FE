@@ -1,29 +1,26 @@
 'use client';
-
-import { zodResolver } from '@hookform/resolvers/zod';
+import React from 'react';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-
-import * as Form from '@/components/ui/form';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { GenericResponse } from '@/dto/GenericResponse';
 import { loginFormSchema } from '@/components/LoginForm/LoginFormSchema';
-import { useRouter } from 'next/navigation';
-import { UserDto } from '@/dto/UserDto';
-import { userAtom } from '@/stores/stores';
-import { useSetAtom } from 'jotai';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { registerFormSchema } from '@/components/RegisterForm/RegisterFormSchema';
+import * as Form from '@/components/ui/form';
 import { useHttp } from '@/hooks/useHttp';
+import { GenericResponse } from '@/dto/GenericResponse';
+import { UserDto } from '@/dto/UserDto';
 import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
-export default function LoginForm() {
-    const form = useForm<z.infer<typeof loginFormSchema>>({
-        resolver: zodResolver(loginFormSchema),
+const RegisterForm = () => {
+    const form = useForm<z.infer<typeof registerFormSchema>>({
+        resolver: zodResolver(registerFormSchema),
         defaultValues: { email: '', password: '' }
     });
-    const router = useRouter();
-    const setUserAtom = useSetAtom(userAtom);
     const httpClient = useHttp();
+    const router = useRouter();
 
     const onSubmit = async function (values: z.infer<typeof loginFormSchema>) {
         const {
@@ -32,19 +29,36 @@ export default function LoginForm() {
             message
         }: GenericResponse<UserDto> = await httpClient
             .setBody(JSON.stringify(values))
-            .post('http://localhost:8080/api/auth/login');
-        if (statusCode === 200) {
-            setUserAtom(user);
-            toast.success(`Welcome back, ${user.username}`, {
-                description: 'You have successfully logged in.'
+            .post('http://localhost:8080/api/auth/register');
+        if (statusCode === 201) {
+            toast.success(`Welcome, ${user.username}!`, {
+                description:
+                    'You have successfully created your account. You are being redirected to the login page.'
             });
-            router.push('/chatrooms');
-        } else toast.error(`Sorry, login attempt failed: ${message}`, { description: 'Please try again.' });
+            router.push('/login');
+        } else if (statusCode === 409) {
+            toast.error(`An account with this email is already exists.`, {
+                description: 'Please try another email or login.'
+            });
+        }
     };
-
     return (
         <Form.Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col w-full gap-4">
+                <Form.FormField
+                    control={form.control}
+                    name="username"
+                    render={({ field }) => (
+                        <Form.FormItem>
+                            <Form.FormLabel>Username</Form.FormLabel>
+                            <Form.FormControl>
+                                <Input placeholder="marcus" {...field} />
+                            </Form.FormControl>
+                            <Form.FormDescription>Select your username</Form.FormDescription>
+                            <Form.FormMessage />
+                        </Form.FormItem>
+                    )}
+                />
                 <Form.FormField
                     control={form.control}
                     name="email"
@@ -73,8 +87,10 @@ export default function LoginForm() {
                         </Form.FormItem>
                     )}
                 />
-                <Button type="submit">Submit</Button>
+                <Button type="submit">Register</Button>
             </form>
         </Form.Form>
     );
-}
+};
+
+export default RegisterForm;

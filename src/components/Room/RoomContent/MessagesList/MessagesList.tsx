@@ -41,7 +41,9 @@ const MessagesList = ({ room, messages }: MessagesListProps) => {
             {messagesAtomValue.slice(0, -1).map((message) => (
                 <Message key={message.id} message={message} />
             ))}
-            <Message message={messagesAtomValue.at(-1) as MessageDto} ref={ref} />
+            {messagesAtomValue.length > 0 && (
+                <Message message={messagesAtomValue.at(-1) as MessageDto} ref={ref} />
+            )}
         </>
     );
 };

@@ -23,7 +23,7 @@ const RoomContent = ({ room, messages }: RoomContentProps) => {
 
     useEffect(() => {
         setMessagesAtom(messages.content);
-        if (!socket) setSocket(io('ws://192.168.1.5:8085'));
+        if (!socket) setSocket(io('ws://192.168.1.6:8085'));
     }, []);
 
     useEffect(() => {

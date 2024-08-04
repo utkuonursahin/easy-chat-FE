@@ -8,6 +8,7 @@ import { chatRoomsAtom } from '@/stores/stores';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { useHttp } from '@/hooks/useHttp';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 type ChatRoomCardContainerProps = {
     chatRoomsData: ChatRoomDto[];
@@ -40,19 +41,21 @@ export default function RoomPreview({ chatRoomsData }: ChatRoomCardContainerProp
     };
 
     return (
-        <ul onClick={onRoomClick} className="flex flex-col gap-2">
-            {chatRooms.map((room, index) => (
-                <li key={room.id}>
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ ease: 'easeInOut', duration: 0.25, delay: 0.25 + index * 0.1 }}
-                        className="col-span-full row-span-full grid-cols-subgrid grid-rows-subgrid grid"
-                    >
-                        <RoomPreviewCard data={room} />
-                    </motion.div>
-                </li>
-            ))}
-        </ul>
+        <ScrollArea>
+            <ul onClick={onRoomClick} className="flex flex-col gap-2">
+                {chatRooms.map((room, index) => (
+                    <li key={room.id}>
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ ease: 'easeInOut', duration: 0.25, delay: 0.25 + index * 0.1 }}
+                            className="col-span-full row-span-full grid-cols-subgrid grid-rows-subgrid grid"
+                        >
+                            <RoomPreviewCard data={room} />
+                        </motion.div>
+                    </li>
+                ))}
+            </ul>
+        </ScrollArea>
     );
 }

@@ -47,7 +47,8 @@ const PersonalSettingsForm = () => {
                 confirmPassword: ''
             });
             toast.success(message);
-        } else toast.error(message);
+        } else if (statusCode === 409) toast.error('Sorry, an account with this email already exists.');
+        else toast.error(message);
     };
     return (
         <Form.Form {...form}>
