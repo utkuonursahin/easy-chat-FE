@@ -17,7 +17,7 @@ async function getData() {
 export default async function Page() {
     const chatRooms = await getData();
     return (
-        <section className="flex flex-col gap-4 p-4 h-[calc(100vh-4rem)]">
+        <section className="flex flex-col gap-4 p-4 h-[calc(100vh-4rem)] lg:h-full lg:col-start-3">
             <header>
                 <h1 className="text-2xl font-semibold text-primary">Chat Rooms</h1>
             </header>

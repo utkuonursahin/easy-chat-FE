@@ -30,7 +30,7 @@ async function getData(id: string): Promise<RoomData> {
 export default async function Page({ params }: { params: { roomId: string } }) {
     const { room, messages }: RoomData = await getData(params.roomId);
     return (
-        <section>
+        <section className="lg:col-start-3">
             <Room>
                 <RoomHeader>
                     <p className="normal-case">{room.name}</p>

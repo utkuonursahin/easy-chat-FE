@@ -44,7 +44,7 @@ export default function LoginForm() {
 
     return (
         <Form.Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col lg:w-1/2 gap-4">
                 <Form.FormField
                     control={form.control}
                     name="email"

@@ -5,7 +5,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 
 const Page = () => {
     return (
-        <section className="w-full flex flex-col gap-4 bg-background text-foreground p-4 md:p-6 lg:p-8">
+        <section className="w-full flex flex-col gap-4 text-foreground p-4 lg:col-start-3">
             <header>
                 <h1 className="text-2xl font-semibold text-primary">Settings</h1>
             </header>
