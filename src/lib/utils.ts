@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export async function checkAuthentication(name: string, jsessionid: string) {
-    const raw = await fetch('http://localhost:8080/api/auth/is-authenticated', {
+    const raw = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/is-authenticated`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

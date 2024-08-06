@@ -36,7 +36,7 @@ const PersonalSettingsForm = () => {
             message
         }: GenericResponse<UserDto> = await httpClient
             .setBody(JSON.stringify(values))
-            .patch('http://localhost:8080/api/user/me');
+            .patch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/me`);
         if (statusCode === 200) {
             setUserAtom(updatedUser);
             form.reset({

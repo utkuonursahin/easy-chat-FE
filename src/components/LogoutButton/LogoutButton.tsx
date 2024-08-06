@@ -21,7 +21,7 @@ const LogoutButton = () => {
     const router = useRouter();
     const setUserStorage = useSetAtom(userAtom);
     const handleClick = async () => {
-        const { statusCode } = await httpClient.get('http://localhost:8080/api/auth/logout');
+        const { statusCode } = await httpClient.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/logout`);
         if (statusCode === 200) {
             toast.warning('You are logged out!');
             setUserStorage(RESET);

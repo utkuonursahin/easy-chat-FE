@@ -43,7 +43,7 @@ SearchBar.SearchBtn = function SearchBtn() {
     const findRoom = async () => {
         try {
             const { data: chatRoom } = await httpClient.get<ChatRoomDto>(
-                `http://localhost:8080/api/chat-rooms/${searchId}`
+                `${process.env.NEXT_PUBLIC_SERVER_URL}/api/chat-rooms/${searchId}`
             );
             setRoomSearchResult(chatRoom);
         } catch (e) {

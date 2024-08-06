@@ -29,7 +29,7 @@ const RegisterForm = () => {
             message
         }: GenericResponse<UserDto> = await httpClient
             .setBody(JSON.stringify(values))
-            .post('http://localhost:8080/api/auth/register');
+            .post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/register`);
         if (statusCode === 201) {
             toast.success(`Welcome, ${user.username}!`, {
                 description:

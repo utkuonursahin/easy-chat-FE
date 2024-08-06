@@ -16,7 +16,7 @@ const RoomSearchResult = () => {
     const onJoinRoom = async () => {
         try {
             const { data: chatRoom, statusCode } = await httpClient.post<ChatRoomDto>(
-                `http://localhost:8080/api/chat-rooms/join/${roomSearchId}`
+                `${process.env.NEXT_PUBLIC_SERVER_URL}/api/chat-rooms/join/${roomSearchId}`
             );
 
             switch (statusCode) {

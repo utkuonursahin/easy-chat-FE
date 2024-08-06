@@ -32,7 +32,7 @@ const RoomCreateCard = () => {
             data: { name }
         }: GenericResponse<ChatRoomDto> = await httpClient
             .setBody(JSON.stringify({ name: roomName }))
-            .post('http://localhost:8080/api/chat-rooms');
+            .post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/chat-rooms`);
         if (statusCode === 201) {
             setOpen((prevState) => !prevState);
             toast.success('Room created successfully', { description: `Room Name: ${name}` });

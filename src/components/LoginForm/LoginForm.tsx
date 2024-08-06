@@ -32,7 +32,7 @@ export default function LoginForm() {
             message
         }: GenericResponse<UserDto> = await httpClient
             .setBody(JSON.stringify(values))
-            .post('http://localhost:8080/api/auth/login');
+            .post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/login`);
         if (statusCode === 200) {
             setUserAtom(user);
             toast.success(`Welcome back, ${user.username}`, {

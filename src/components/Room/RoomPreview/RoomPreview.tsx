@@ -31,7 +31,7 @@ export default function RoomPreview({ chatRoomsData }: ChatRoomCardContainerProp
             toast.success('Room id copied to clipboard!', { description: id });
         } else if (target.closest('.leave-room')) {
             try {
-                await httpClient.del(`http://localhost:8080/api/chat-rooms/leave/${id}`);
+                await httpClient.del(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/chat-rooms/leave/${id}`);
                 setChatRooms((prev) => prev.filter((room) => room.id !== id));
                 toast.info('Leaved the room!', { description: `Room ID: ${id}` });
             } catch (e: any) {
