@@ -3,7 +3,6 @@ import { cookies } from 'next/headers';
 import { GenericResponse } from '@/dto/GenericResponse';
 import { ChatRoomDto } from '@/dto/ChatRoomDto';
 import Room from '@/components/Room/Room';
-import React from 'react';
 import { PaginatedMessageDto } from '@/dto/PaginatedMessageDto';
 import RoomContent from '@/components/Room/RoomContent/RoomContent';
 import RoomMessageInput from '@/components/Room/RoomMessageInput/RoomMessageInput';
@@ -30,7 +29,7 @@ async function getData(id: string): Promise<RoomData> {
 export default async function Page({ params }: { params: { roomId: string } }) {
     const { room, messages }: RoomData = await getData(params.roomId);
     return (
-        <section className="lg:col-start-3">
+        <section className="lg:col-start-3 lg:h-screen">
             <Room>
                 <RoomHeader>
                     <p className="normal-case">{room.name}</p>
