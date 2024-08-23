@@ -1,19 +1,18 @@
 'use client';
-import React, {useState} from 'react';
-import {Input} from '@/components/ui/input';
-import {Button} from '@/components/ui/button';
-import {SendHorizontal} from 'lucide-react';
-import {ChatRoomDto} from '@/dto/ChatRoomDto';
-import {UserDto} from '@/dto/UserDto';
-import {useAtomValue} from 'jotai';
-import {socketAtom} from '@/stores/stores';
+import React, { useState } from 'react';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { SendHorizontal } from 'lucide-react';
+import { ChatRoomDto } from '@/dto/ChatRoomDto';
+import { useAtomValue } from 'jotai';
+import { socketAtom, userAtom } from '@/stores/stores';
 
 type RoomContentProps = {
     room: ChatRoomDto;
 };
 
 const RoomMessageInput = ({ room }: RoomContentProps) => {
-    const user = JSON.parse(window.localStorage.getItem('user')!) as UserDto;
+    const user = useAtomValue(userAtom);
     const [textMsg, setTextMsg] = useState('');
     const [isWriting, setIsWriting] = useState(false);
     const socket = useAtomValue(socketAtom);
@@ -33,8 +32,8 @@ const RoomMessageInput = ({ room }: RoomContentProps) => {
             <Input
                 value={textMsg}
                 onChange={(e) => setTextMsg(e.target.value)}
-                onFocus={() => setIsWriting((prev) => true)}
-                onBlur={() => setIsWriting((prev) => false)}
+                onFocus={() => setIsWriting(() => true)}
+                onBlur={() => setIsWriting(() => false)}
                 placeholder="Type a message"
             />
             <Button
