@@ -1,11 +1,11 @@
-import RoomHeader from '@/components/Room/RoomHeader/RoomHeader';
+import RoomHeader from '@/components/Room/RoomContent/RoomHeader/RoomHeader';
 import { cookies } from 'next/headers';
 import { GenericResponse } from '@/dto/GenericResponse';
 import { ChatRoomDto } from '@/dto/ChatRoomDto';
 import Room from '@/components/Room/Room';
 import { PaginatedMessageDto } from '@/dto/PaginatedMessageDto';
 import RoomContent from '@/components/Room/RoomContent/RoomContent';
-import RoomMessageInput from '@/components/Room/RoomMessageInput/RoomMessageInput';
+import RoomMessageInput from '@/components/Room/RoomContent/RoomMessageInput/RoomMessageInput';
 import { useHttp } from '@/hooks/useHttp';
 
 type RoomData = {
