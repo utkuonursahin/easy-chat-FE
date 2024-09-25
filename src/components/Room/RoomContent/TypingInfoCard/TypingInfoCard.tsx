@@ -14,7 +14,7 @@ const TypingInfoCard = ({ users }: TypingInfoCardProps) => {
                         .slice(0, 4)
                         .map((user) => user.username)
                         .join(', ')
-                        .concat(` + ${users.length - 4} more `)}
+                        .concat(`${users.length > 1 && ' +' + (users.length - 4) + ' more '}`)}
                 </span>
             </p>
             <p className="text-secondary-foreground">Typing...</p>
